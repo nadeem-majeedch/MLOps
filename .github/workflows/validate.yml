@@ -1,0 +1,90 @@
+# Validation only. This workflow never deploys and needs no secrets.
+#
+# It runs on every pull request and on pushes to the primary branch, so a broken
+# link, a missing module page, an unpacked action, or a failing starter test is
+# caught before it reaches the published site.
+#
+# Action versions are current majors as of October 2026. Review them with
+# docs/reference-guides/maintenance.md; do not switch to a branch reference.
+name: Validate course
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  documentation:
+    name: Docs, links, and structure
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v7.1.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-docs.txt
+
+      - name: Install documentation dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-docs.txt
+
+      - name: Validate links, navigation, modules, syntax, and datasets
+        run: python scripts/validate_course.py --verbose
+
+      - name: Build the site exactly as deployment will
+        run: python -m mkdocs build --strict
+
+      - name: Upload the built site for inspection
+        if: always()
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: site-build-${{ github.run_id }}
+          path: site/
+          retention-days: 7
+          if-no-files-found: warn
+
+  starters:
+    name: Starter projects
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v7.1.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: examples/requirements-labs.txt
+
+      - name: Install the course lab and starter dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r examples/requirements-labs.txt
+
+      - name: Lint the starter and dataset code
+        run: python -m ruff check datasets/generate.py examples/starters
+
+      - name: Run every starter end to end
+        # Generates data, trains, and runs each project's tests. The advanced
+        # project's drift monitor is expected to exit 2; the script knows that.
+        run: python examples/starters/verify_starters.py

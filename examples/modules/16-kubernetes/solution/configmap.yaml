@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: raviride-config
+  namespace: raviride
+  labels:
+    app.kubernetes.io/name: raviride-eta
+data:
+  LOG_LEVEL: "INFO"
+  FEATURE_SET: "full"
+  MODEL_URI: "/app/models/model.joblib"

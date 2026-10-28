@@ -1,0 +1,11 @@
+# Paths are relative to this project directory.
+data: data/study_support.csv
+output: artifacts
+
+model: logistic        # logistic | forest
+seed: 42
+test_size: 0.25
+
+# The floor `train.py` enforces. Set it from a measured baseline, not from hope:
+# the reference solution reaches about 0.83 ROC AUC on this data.
+min_roc_auc: 0.70

@@ -1,0 +1,23 @@
+{
+  "candidate": "shallow_v3",
+  "model": "raviride-eta",
+  "trained_at": "2026-09-25T11:40:00Z",
+  "data_hash": "7b3ad0d92b721cf4",
+  "dropped_zones": [],
+  "metrics": {
+    "mae": 3.4416,
+    "rmse": 5.2601,
+    "r2": 0.6302,
+    "p95_abs_error": 9.4972,
+    "zones": {
+      "Z01": {"mae": 2.545, "rows": 68},
+      "Z02": {"mae": 2.2593, "rows": 54},
+      "Z03": {"mae": 3.4934, "rows": 52},
+      "Z04": {"mae": 2.9736, "rows": 34},
+      "Z05": {"mae": 3.8889, "rows": 30},
+      "Z06": {"mae": 3.4562, "rows": 28},
+      "Z07": {"mae": 5.8903, "rows": 16},
+      "Z08": {"mae": 7.3065, "rows": 22}
+    }
+  }
+}

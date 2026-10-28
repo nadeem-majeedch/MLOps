@@ -1,0 +1,14 @@
+.git
+.gitignore
+.venv
+.venv-verify
+mlruns
+data
+artifacts
+tests
+logs
+.pytest_cache
+.ruff_cache
+__pycache__
+*.pyc
+*.log

@@ -1,0 +1,23 @@
+{
+  "candidate": "zone_regression_v6",
+  "model": "raviride-eta",
+  "trained_at": "2026-09-28T15:37:00Z",
+  "data_hash": "7b3ad0d92b721cf4",
+  "dropped_zones": [],
+  "metrics": {
+    "mae": 2.7401,
+    "rmse": 4.4788,
+    "r2": 0.7334,
+    "p95_abs_error": 8.122,
+    "zones": {
+      "Z01": {"mae": 2.19, "rows": 68},
+      "Z02": {"mae": 1.7802, "rows": 54},
+      "Z03": {"mae": 2.6901, "rows": 52},
+      "Z04": {"mae": 2.4408, "rows": 34},
+      "Z05": {"mae": 3.0122, "rows": 30},
+      "Z06": {"mae": 2.8904, "rows": 28},
+      "Z07": {"mae": 5.1002, "rows": 16},
+      "Z08": {"mae": 5.4021, "rows": 22}
+    }
+  }
+}

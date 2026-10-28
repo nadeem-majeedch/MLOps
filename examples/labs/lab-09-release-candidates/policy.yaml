@@ -1,0 +1,8 @@
+overall_ceiling: 3.20
+max_regression: 0.03
+zone_limits:
+  Z01: 0.05
+  Z05: 0.05
+  Z07: 0.05
+  Z08: 0.08
+forbid_dropped_zones: true

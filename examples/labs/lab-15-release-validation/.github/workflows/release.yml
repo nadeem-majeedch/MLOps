@@ -1,0 +1,35 @@
+# Lab 15 starter: the bundle is published before it is checked.
+#
+# A release workflow's job order is a promise. If the upload step comes first,
+# the artefact is available to whoever wants it before any gate has run, and a
+# later failure leaves a published release behind.
+
+name: release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: pip install -r requirements.txt
+
+      - name: Publish bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-bundle
+          path: release/tempting
+
+      - name: Validate
+        run: python validate_release.py --bundle release/tempting

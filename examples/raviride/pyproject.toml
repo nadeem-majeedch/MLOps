@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "raviride-eta"
+version = "0.3.0"
+description = "Trip duration model for the RaviRide course project"
+requires-python = ">=3.11"
+dependencies = [
+    "pandas==2.2.3",
+    "numpy==2.5.4",
+    "scikit-learn==1.5.2",
+    "joblib==1.4.2",
+    "pyyaml==6.0.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "dvc==3.59.0",
+    # dvc 3.59 imports pathspec.patterns.gitwildmatch._DIR_MARK, which pathspec
+    # 1.x removed. Without this cap, a clean install gets pathspec 1.1 and
+    # `dvc init` fails with an import error. 0.12.1 is verified with dvc 3.59.
+    "pathspec==0.12.1",
+    "mlflow==2.17.2",
+    "pytest==8.3.4",
+    "pytest-cov==6.0.0",
+    "ruff==0.7.4",
+]
+serve = [
+    "fastapi==0.115.6",
+    "uvicorn==0.32.1",
+    "pydantic==2.14.1",
+    "httpx==0.28.1",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "serving"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["raviride_eta", "app", "serving"]
+
+[tool.ruff.lint.per-file-ignores]
+# These files bootstrap sys.path so they can run as scripts; the imports must
+# follow the bootstrap, which is why E402 and isort's block check do not apply.
+"serving/app.py" = ["E402"]
+"serving/skew_demo.py" = ["E402", "I001"]

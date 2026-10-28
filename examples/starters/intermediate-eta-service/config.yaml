@@ -1,0 +1,12 @@
+# Paths are relative to this project directory.
+data: data/trips.csv
+output: artifacts
+
+seed: 42
+test_size: 0.25
+n_estimators: 150
+
+# A ceiling, not a target: `train.py` exits non-zero above it. Measured baseline
+# on this synthetic data is about 2.2 minutes MAE; 3.5 leaves room for a
+# different machine without letting a broken run through.
+max_mae: 3.5

@@ -1,0 +1,32 @@
+# Lab 14 starter: a workflow that reports green and proves nothing.
+#
+# Read it, then run:
+#     python lint_workflow.py
+#     python simulate_ci.py
+#
+# The second command runs this workflow's steps locally, which is as close as
+# this lab gets to Actions without an account.
+
+name: quality
+
+on:
+  push:
+    branches: [main]
+
+permissions: write-all
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+
+      - name: Install
+        run: pip install -r requirements-dev.txt
+
+      - name: Test
+        run: pytest -q || true

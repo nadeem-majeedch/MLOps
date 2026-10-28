@@ -1,0 +1,43 @@
+{
+  "incident_id": "INC-2026-10-18",
+  "severity": "SEV2",
+  "detected_at": "2026-10-18T02:12",
+  "mitigated_at": "2026-10-18T04:20",
+  "mttr_minutes": 128,
+  "impact": {
+    "failed_requests": 660,
+    "window": "2026-10-18T02:00 to 2026-10-18T04:20",
+    "user_visible": "Prediction requests returned 500 for roughly a fifth of traffic; dispatch clients saw 'estimate unavailable' and two support tickets were raised."
+  },
+  "root_cause": "Release v5 expects a traffic_index feature that the request schema does not provide. The model artifact and the service contract disagreed, so every request that reached the model raised KeyError: 'traffic_index' and returned 500.",
+  "contributing_factors": [
+    "The release gate was overridden for a hotfix, so the schema contract test never ran against v5.",
+    "The rollout went to 100% of traffic with no canary, so the mismatch reached all requests immediately.",
+    "Detection was fast but response was not: paging at 02:12, acknowledgement at 02:22, rollback at 04:20 because the rollback path required a release approval that had no out-of-hours route."
+  ],
+  "detection": "http_5xx_rate_high fired at 02:18 (first error at 02:00:04, present in the log but not alerted on). The latency alert at 02:12 was the first page. On-call acknowledged 11 minutes after the page.",
+  "immediate_action": {
+    "action": "rollback",
+    "target_version": "v4",
+    "verified_by": "5xx rate returned to 0.001 and p95 latency to 190ms within four minutes of the alias change; alert resolved at 04:24."
+  },
+  "timeline": [
+    {"at": "2026-10-18T01:58:42", "actor": "service", "event": "v5 starts and logs a feature-schema mismatch warning"},
+    {"at": "2026-10-18T02:00:04", "actor": "service", "event": "first 500 with KeyError traffic_index"},
+    {"at": "2026-10-18T02:12:00", "actor": "monitoring", "event": "latency_p95_high pages on-call"},
+    {"at": "2026-10-18T02:18:00", "actor": "monitoring", "event": "http_5xx_rate_high fires as critical"},
+    {"at": "2026-10-18T02:22:51", "actor": "on-call engineer", "event": "page acknowledged, investigation begins"},
+    {"at": "2026-10-18T02:58:30", "actor": "on-call engineer", "event": "feature mismatch hypothesised from the startup warning"},
+    {"at": "2026-10-18T03:20:44", "actor": "release process", "event": "rollback blocked pending release-owner approval"},
+    {"at": "2026-10-18T03:52:10", "actor": "release owner", "event": "approval granted"},
+    {"at": "2026-10-18T04:20:00", "actor": "on-call engineer", "event": "champion alias moved to v4"},
+    {"at": "2026-10-18T04:24:00", "actor": "monitoring", "event": "error-rate alert resolved, recovery verified"}
+  ],
+  "prevention": [
+    "Run the service contract test against the artifact inside the release gate, and block promotion when the request schema and model signature disagree.",
+    "Require a canary stage at 5% of traffic for 30 minutes with automatic rollback on 5xx rate, so a schema mismatch affects a bounded audience.",
+    "Give the on-call engineer a pre-approved rollback that needs no release approval outside working hours; rehearse it monthly and time it.",
+    "Page on the 5xx rate directly rather than on latency, and alert when the service logs a startup schema warning."
+  ],
+  "postmortem": "docs/postmortem.md"
+}

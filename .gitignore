@@ -1,0 +1,24 @@
+# Generated documentation output (rebuild with `mkdocs build`)
+site/
+.preview/
+.freebuff/
+
+# Local environments
+.venv-docs/
+.venv-verify/
+.venv/
+
+# Python and tooling caches
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Generated practice data and model artifacts
+datasets/generated/
+examples/starters/*/data/
+examples/starters/*/artifacts/
+
+# Scratch verification directories
+.tmp-verify/
+examples/labs/.verify/

@@ -1,0 +1,21 @@
+# Rules a candidate must satisfy before it may replace the champion.
+# Every number here is a decision someone made; none of them is in the model.
+
+overall_ceiling: 3.20        # absolute: above this, no promotion, whatever the champion did
+max_regression: 0.03         # relative to the champion's MAE
+p95_ceiling: 9.60            # absolute: the slow tail matters more than the mean
+zone_limits:                 # per-zone tolerance, relative to the champion's zone MAE
+  Z01: 0.05
+  Z05: 0.05
+  Z07: 0.05
+  Z08: 0.08
+required_slices:             # every production zone must appear in the report
+  - Z01
+  - Z02
+  - Z03
+  - Z04
+  - Z05
+  - Z06
+  - Z07
+  - Z08
+forbid_dropped_zones: true   # a model that never saw a zone cannot serve it

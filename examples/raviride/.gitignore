@@ -1,0 +1,10 @@
+.dvc/cache
+.dvc/tmp
+data/processed
+data/features
+models
+mlruns
+candidates
+logs
+.pipeline
+__pycache__

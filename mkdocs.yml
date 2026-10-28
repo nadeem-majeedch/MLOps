@@ -1,0 +1,392 @@
+# Documentation site for the MLOps self-study course.
+# Build and preview instructions live in docs/reference-guides/, not in this file's comments.
+
+site_name: MLOps
+site_description: >-
+  A self-study course in Machine Learning Operations, from a first reproducible
+  project to an operated production system. Written for university students
+  working alone on Windows 11, Linux, or macOS.
+site_author: Engr. Dr. Muhammad Nadeem Majeed
+site_url: https://nadeem-majeedch.github.io/MLOps/
+
+repo_url: https://github.com/nadeem-majeedch/MLOps
+repo_name: nadeem-majeedch/MLOps
+edit_uri: edit/main/docs/
+
+copyright: >-
+  Course content by Engr. Dr. Muhammad Nadeem Majeed, Department of Data Science
+  (PUCIT), University of the Punjab, Lahore. Licence not yet declared; see the
+  About page.
+
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  language: en
+  # No web fonts: keeps the site self-contained, fast, and readable offline.
+  font: false
+
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: amber
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: amber
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.action.edit
+    - content.action.view
+
+  icon:
+    repo: fontawesome/brands/github
+
+extra:
+  generator: false
+
+plugins:
+  - search
+
+# Treat content defects as warnings, so `mkdocs build --strict` fails on them.
+# MkDocs defaults several of these to `info`, which would let a broken anchor or
+# a page missing from the menu publish silently.
+validation:
+  nav:
+    omitted_files: warn
+    not_found: warn
+    absolute_links: warn
+  links:
+    not_found: warn
+    absolute_links: warn
+    unrecognized_links: warn
+    anchors: warn
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - pymdownx.details
+  # Icons are rendered from SVG bundled with Material; no network requests.
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: false
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tabbed:
+      alternate_style: true
+
+# Authoring material stays in the repository but is not part of the student site.
+exclude_docs: |
+  templates/
+  audit-phase-0.md
+
+nav:
+  - Home: index.md
+  - Start Here:
+      - Your first day: start-here/index.md
+      - Prerequisites and readiness: prerequisites/index.md
+      - Learning roadmap: learning-roadmap/index.md
+      - Progress tracker: start-here/progress-tracker.md
+  - Foundations:
+      - All modules: modules/index.md
+      - "01 · MLOps foundations":
+          - Overview: modules/01-introduction-to-mlops/index.md
+          - Objectives: modules/01-introduction-to-mlops/learning-objectives.md
+          - Concepts: modules/01-introduction-to-mlops/concepts.md
+          - Worked example: modules/01-introduction-to-mlops/worked-example.md
+          - Lab: modules/01-introduction-to-mlops/lab.md
+          - Challenge: modules/01-introduction-to-mlops/independent-challenge.md
+          - Knowledge check: modules/01-introduction-to-mlops/knowledge-check.md
+          - Troubleshooting: modules/01-introduction-to-mlops/troubleshooting.md
+          - References: modules/01-introduction-to-mlops/references.md
+      - "02 · Python, Git, environments":
+          - Overview: modules/02-python-git-cli-environments/index.md
+          - Objectives: modules/02-python-git-cli-environments/learning-objectives.md
+          - Concepts: modules/02-python-git-cli-environments/concepts.md
+          - Worked example: modules/02-python-git-cli-environments/worked-example.md
+          - Lab: modules/02-python-git-cli-environments/lab.md
+          - Challenge: modules/02-python-git-cli-environments/independent-challenge.md
+          - Knowledge check: modules/02-python-git-cli-environments/knowledge-check.md
+          - Troubleshooting: modules/02-python-git-cli-environments/troubleshooting.md
+          - References: modules/02-python-git-cli-environments/references.md
+      - "03 · Project organization":
+          - Overview: modules/03-project-organization/index.md
+          - Objectives: modules/03-project-organization/learning-objectives.md
+          - Concepts: modules/03-project-organization/concepts.md
+          - Worked example: modules/03-project-organization/worked-example.md
+          - Lab: modules/03-project-organization/lab.md
+          - Challenge: modules/03-project-organization/independent-challenge.md
+          - Knowledge check: modules/03-project-organization/knowledge-check.md
+          - Troubleshooting: modules/03-project-organization/troubleshooting.md
+          - References: modules/03-project-organization/references.md
+  - Intermediate:
+      - "04 · Data quality and versioning":
+          - Overview: modules/04-data-quality-versioning/index.md
+          - Objectives: modules/04-data-quality-versioning/learning-objectives.md
+          - Concepts: modules/04-data-quality-versioning/concepts.md
+          - Worked example: modules/04-data-quality-versioning/worked-example.md
+          - Lab: modules/04-data-quality-versioning/lab.md
+          - Challenge: modules/04-data-quality-versioning/independent-challenge.md
+          - Knowledge check: modules/04-data-quality-versioning/knowledge-check.md
+          - Troubleshooting: modules/04-data-quality-versioning/troubleshooting.md
+          - References: modules/04-data-quality-versioning/references.md
+      - "05 · Reproducible training":
+          - Overview: modules/05-reproducible-training/index.md
+          - Objectives: modules/05-reproducible-training/learning-objectives.md
+          - Concepts: modules/05-reproducible-training/concepts.md
+          - Worked example: modules/05-reproducible-training/worked-example.md
+          - Lab: modules/05-reproducible-training/lab.md
+          - Challenge: modules/05-reproducible-training/independent-challenge.md
+          - Knowledge check: modules/05-reproducible-training/knowledge-check.md
+          - Troubleshooting: modules/05-reproducible-training/troubleshooting.md
+          - References: modules/05-reproducible-training/references.md
+      - "06 · Experiment tracking":
+          - Overview: modules/06-experiment-tracking/index.md
+          - Objectives: modules/06-experiment-tracking/learning-objectives.md
+          - Concepts: modules/06-experiment-tracking/concepts.md
+          - Worked example: modules/06-experiment-tracking/worked-example.md
+          - Lab: modules/06-experiment-tracking/lab.md
+          - Challenge: modules/06-experiment-tracking/independent-challenge.md
+          - Knowledge check: modules/06-experiment-tracking/knowledge-check.md
+          - Troubleshooting: modules/06-experiment-tracking/troubleshooting.md
+          - References: modules/06-experiment-tracking/references.md
+      - "07 · Testing ML systems":
+          - Overview: modules/07-testing-ml-systems/index.md
+          - Objectives: modules/07-testing-ml-systems/learning-objectives.md
+          - Concepts: modules/07-testing-ml-systems/concepts.md
+          - Worked example: modules/07-testing-ml-systems/worked-example.md
+          - Lab: modules/07-testing-ml-systems/lab.md
+          - Challenge: modules/07-testing-ml-systems/independent-challenge.md
+          - Knowledge check: modules/07-testing-ml-systems/knowledge-check.md
+          - Troubleshooting: modules/07-testing-ml-systems/troubleshooting.md
+          - References: modules/07-testing-ml-systems/references.md
+      - "08 · Pipeline automation":
+          - Overview: modules/08-pipeline-automation/index.md
+          - Objectives: modules/08-pipeline-automation/learning-objectives.md
+          - Concepts: modules/08-pipeline-automation/concepts.md
+          - Worked example: modules/08-pipeline-automation/worked-example.md
+          - Lab: modules/08-pipeline-automation/lab.md
+          - Challenge: modules/08-pipeline-automation/independent-challenge.md
+          - Knowledge check: modules/08-pipeline-automation/knowledge-check.md
+          - Troubleshooting: modules/08-pipeline-automation/troubleshooting.md
+          - References: modules/08-pipeline-automation/references.md
+      - "09 · Model registry and lifecycle":
+          - Overview: modules/09-model-registry/index.md
+          - Objectives: modules/09-model-registry/learning-objectives.md
+          - Concepts: modules/09-model-registry/concepts.md
+          - Worked example: modules/09-model-registry/worked-example.md
+          - Lab: modules/09-model-registry/lab.md
+          - Challenge: modules/09-model-registry/independent-challenge.md
+          - Knowledge check: modules/09-model-registry/knowledge-check.md
+          - Troubleshooting: modules/09-model-registry/troubleshooting.md
+          - References: modules/09-model-registry/references.md
+      - "10 · Serving with FastAPI":
+          - Overview: modules/10-model-serving/index.md
+          - Objectives: modules/10-model-serving/learning-objectives.md
+          - Concepts: modules/10-model-serving/concepts.md
+          - Worked example: modules/10-model-serving/worked-example.md
+          - Lab: modules/10-model-serving/lab.md
+          - Challenge: modules/10-model-serving/independent-challenge.md
+          - Knowledge check: modules/10-model-serving/knowledge-check.md
+          - Troubleshooting: modules/10-model-serving/troubleshooting.md
+          - References: modules/10-model-serving/references.md
+      - "11 · Docker and containers":
+          - Overview: modules/11-docker-containers/index.md
+          - Objectives: modules/11-docker-containers/learning-objectives.md
+          - Concepts: modules/11-docker-containers/concepts.md
+          - Worked example: modules/11-docker-containers/worked-example.md
+          - Lab: modules/11-docker-containers/lab.md
+          - Challenge: modules/11-docker-containers/independent-challenge.md
+          - Knowledge check: modules/11-docker-containers/knowledge-check.md
+          - Troubleshooting: modules/11-docker-containers/troubleshooting.md
+          - References: modules/11-docker-containers/references.md
+  - Advanced:
+      - "12 · CI/CD for ML":
+          - Overview: modules/12-ci-cd/index.md
+          - Objectives: modules/12-ci-cd/learning-objectives.md
+          - Concepts: modules/12-ci-cd/concepts.md
+          - Worked example: modules/12-ci-cd/worked-example.md
+          - Lab: modules/12-ci-cd/lab.md
+          - Challenge: modules/12-ci-cd/independent-challenge.md
+          - Knowledge check: modules/12-ci-cd/knowledge-check.md
+          - Troubleshooting: modules/12-ci-cd/troubleshooting.md
+          - References: modules/12-ci-cd/references.md
+      - "13 · Orchestration":
+          - Overview: modules/13-orchestration/index.md
+          - Objectives: modules/13-orchestration/learning-objectives.md
+          - Concepts: modules/13-orchestration/concepts.md
+          - Worked example: modules/13-orchestration/worked-example.md
+          - Lab: modules/13-orchestration/lab.md
+          - Challenge: modules/13-orchestration/independent-challenge.md
+          - Knowledge check: modules/13-orchestration/knowledge-check.md
+          - Troubleshooting: modules/13-orchestration/troubleshooting.md
+          - References: modules/13-orchestration/references.md
+      - "14 · Monitoring and drift":
+          - Overview: modules/14-monitoring-drift/index.md
+          - Objectives: modules/14-monitoring-drift/learning-objectives.md
+          - Concepts: modules/14-monitoring-drift/concepts.md
+          - Worked example: modules/14-monitoring-drift/worked-example.md
+          - Lab: modules/14-monitoring-drift/lab.md
+          - Challenge: modules/14-monitoring-drift/independent-challenge.md
+          - Knowledge check: modules/14-monitoring-drift/knowledge-check.md
+          - Troubleshooting: modules/14-monitoring-drift/troubleshooting.md
+          - References: modules/14-monitoring-drift/references.md
+      - "15 · Security and governance":
+          - Overview: modules/15-security-governance/index.md
+          - Objectives: modules/15-security-governance/learning-objectives.md
+          - Concepts: modules/15-security-governance/concepts.md
+          - Worked example: modules/15-security-governance/worked-example.md
+          - Lab: modules/15-security-governance/lab.md
+          - Challenge: modules/15-security-governance/independent-challenge.md
+          - Knowledge check: modules/15-security-governance/knowledge-check.md
+          - Troubleshooting: modules/15-security-governance/troubleshooting.md
+          - References: modules/15-security-governance/references.md
+      - "16 · Cloud and Kubernetes":
+          - Overview: modules/16-cloud-kubernetes/index.md
+          - Objectives: modules/16-cloud-kubernetes/learning-objectives.md
+          - Concepts: modules/16-cloud-kubernetes/concepts.md
+          - Worked example: modules/16-cloud-kubernetes/worked-example.md
+          - Lab: modules/16-cloud-kubernetes/lab.md
+          - Challenge: modules/16-cloud-kubernetes/independent-challenge.md
+          - Knowledge check: modules/16-cloud-kubernetes/knowledge-check.md
+          - Troubleshooting: modules/16-cloud-kubernetes/troubleshooting.md
+          - References: modules/16-cloud-kubernetes/references.md
+      - "17 · Capstone":
+          - Overview: modules/17-capstone/index.md
+          - Objectives: modules/17-capstone/learning-objectives.md
+          - Concepts: modules/17-capstone/concepts.md
+          - Worked example: modules/17-capstone/worked-example.md
+          - Lab: modules/17-capstone/lab.md
+          - Challenge: modules/17-capstone/independent-challenge.md
+          - Knowledge check: modules/17-capstone/knowledge-check.md
+          - Troubleshooting: modules/17-capstone/troubleshooting.md
+          - References: modules/17-capstone/references.md
+  - Labs:
+      - Lab catalogue: labs/index.md
+      - Foundation:
+          - "01 · A notebook that will not reproduce": labs/lab-01-nondeterministic-analysis.md
+          - "02 · A script into a project": labs/lab-02-refactor-notebook.md
+      - Intermediate:
+          - "03 · Defects in a supplier drop": labs/lab-03-data-defects.md
+          - "04 · Version and reproduce": labs/lab-04-version-and-reproduce.md
+          - "05 · Deterministic pipeline": labs/lab-05-deterministic-pipeline.md
+          - "06 · Compare experiments": labs/lab-06-experiment-comparison.md
+          - "07 · Tests that catch leakage": labs/lab-07-leakage-tests.md
+          - "08 · Quality gate": labs/lab-08-quality-gate.md
+          - "09 · Promote and roll back": labs/lab-09-release-candidates.md
+          - "10 · Serving contract": labs/lab-10-serving-contract.md
+          - "11 · Request triage": labs/lab-11-request-triage.md
+          - "12 · Container image": labs/lab-12-docker-image.md
+          - "13 · Dependency conflict": labs/lab-13-dependency-conflict.md
+      - Advanced:
+          - "14 · A workflow that can fail": labs/lab-14-actions-workflow.md
+          - "15 · Release gate": labs/lab-15-release-gate.md
+          - "16 · Scheduled training": labs/lab-16-scheduled-training.md
+          - "17 · Drift analysis": labs/lab-17-drift-analysis.md
+          - "18 · Regression and rollback": labs/lab-18-regression-rollback.md
+          - "19 · Security review": labs/lab-19-security-review.md
+      - Integration:
+          - "20 · Incident review": labs/lab-20-incident-review.md
+  - Projects:
+      - Projects and mini-projects: projects/index.md
+      - Mini-project briefs:
+          - Overview: projects/mini-projects/index.md
+          - "MP1 · Reproducible package": projects/mini-projects/mp-01-reproducible-training-package.md
+          - "MP2 · Evaluated and registered": projects/mini-projects/mp-02-evaluated-registered-model.md
+          - "MP3 · Served and gated": projects/mini-projects/mp-03-served-containerised-gated-service.md
+          - "MP4 · Monitored lifecycle": projects/mini-projects/mp-04-monitored-lifecycle.md
+          - "MP5 · Operate and hand over": projects/mini-projects/mp-05-operate-and-hand-over.md
+      - Capstone brief: projects/capstone.md
+  - Assessments:
+      - How assessment works: assessments/index.md
+      - Module practice exercises: assessments/module-practice.md
+      - Question banks:
+          - All banks: assessments/question-bank/index.md
+          - "01 · MLOps fundamentals": assessments/question-bank/01-mlops-fundamentals.md
+          - "02 · Reproducibility and versioning": assessments/question-bank/02-reproducibility-data-versioning.md
+          - "03 · Tracking and evaluation": assessments/question-bank/03-experiment-tracking-evaluation.md
+          - "04 · Testing and automation": assessments/question-bank/04-testing-automation.md
+          - "05 · APIs and containers": assessments/question-bank/05-apis-containers.md
+          - "06 · CI/CD and orchestration": assessments/question-bank/06-cicd-orchestration.md
+          - "07 · Monitoring and drift": assessments/question-bank/07-monitoring-drift.md
+          - "08 · Security and governance": assessments/question-bank/08-security-governance.md
+          - "09 · Cloud and operations": assessments/question-bank/09-cloud-advanced-operations.md
+      - Capstone assessment: assessments/capstone-assessment.md
+      - Revision and exam guide: assessments/revision-guide.md
+      - Rubrics and quality gates: syllabus/assessment-framework.md
+      - Reference solutions:
+          - Solutions index: assessments/solutions/index.md
+          - Mini-project notes: assessments/solutions/mini-projects.md
+          - Capstone notes: assessments/solutions/capstone.md
+          - "Keys · All banks": assessments/solutions/question-bank/index.md
+          - "Keys · Bank 01": assessments/solutions/question-bank/01-mlops-fundamentals-answers.md
+          - "Keys · Bank 02": assessments/solutions/question-bank/02-reproducibility-data-versioning-answers.md
+          - "Keys · Bank 03": assessments/solutions/question-bank/03-experiment-tracking-evaluation-answers.md
+          - "Keys · Bank 04": assessments/solutions/question-bank/04-testing-automation-answers.md
+          - "Keys · Bank 05": assessments/solutions/question-bank/05-apis-containers-answers.md
+          - "Keys · Bank 06": assessments/solutions/question-bank/06-cicd-orchestration-answers.md
+          - "Keys · Bank 07": assessments/solutions/question-bank/07-monitoring-drift-answers.md
+          - "Keys · Bank 08": assessments/solutions/question-bank/08-security-governance-answers.md
+          - "Keys · Bank 09": assessments/solutions/question-bank/09-cloud-advanced-operations-answers.md
+  - Submissions:
+      - Submission templates: submissions/index.md
+      - Problem statement: submissions/problem-statement.md
+      - Architecture diagram: submissions/architecture-diagram.md
+      - Experiment record: submissions/experiment-record.md
+      - Test evidence: submissions/test-evidence.md
+      - Deployment checklist: submissions/deployment-checklist.md
+      - Monitoring report: submissions/monitoring-report.md
+      - Final project report: submissions/final-report.md
+  - Reference:
+      - Glossary: glossary/index.md
+      - Resources: resources/index.md
+      - Troubleshooting: troubleshooting/index.md
+      - Course design:
+          - Course overview: syllabus/course-overview.md
+          - Detailed syllabus: syllabus/detailed-syllabus.md
+          - Learning outcomes: syllabus/learning-outcomes.md
+          - Tool selection guide: syllabus/tool-selection-guide.md
+          - Project map: syllabus/course-project-map.md
+      - Site and repository:
+          - Development setup: reference-guides/development-setup.md
+          - Local preview: reference-guides/local-preview.md
+          - Build and validation: reference-guides/build-and-validation.md
+          - Website development: reference-guides/website-development.md
+          - GitHub Pages deployment: reference-guides/github-pages-deployment.md
+          - Maintenance: reference-guides/maintenance.md
+          - Troubleshooting builds: reference-guides/troubleshooting-builds.md
+          - Final quality report: reference-guides/final-quality-report.md
+          - Known limitations: reference-guides/known-limitations.md
+          - Pre-publication checklist: reference-guides/pre-publication-checklist.md
+          - Course standards: course-standards.md
+  - About:
+      - About this course: about/index.md

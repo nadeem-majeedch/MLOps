@@ -1,0 +1,22 @@
+{
+  "candidate": "missing_slice_v7",
+  "model": "raviride-eta",
+  "trained_at": "2026-09-29T07:20:00Z",
+  "data_hash": "7b3ad0d92b721cf4",
+  "dropped_zones": [],
+  "metrics": {
+    "mae": 2.7503,
+    "rmse": 4.4701,
+    "r2": 0.7331,
+    "p95_abs_error": 8.19,
+    "zones": {
+      "Z01": {"mae": 1.8801, "rows": 68},
+      "Z02": {"mae": 1.7911, "rows": 54},
+      "Z03": {"mae": 2.8002, "rows": 52},
+      "Z04": {"mae": 2.4998, "rows": 34},
+      "Z05": {"mae": 3.0101, "rows": 30},
+      "Z06": {"mae": 2.9503, "rows": 28},
+      "Z08": {"mae": 5.5021, "rows": 22}
+    }
+  }
+}

@@ -1,0 +1,15 @@
+name: deploy
+
+on: push
+
+permissions: write-all
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - name: Show configuration
+        run: echo "deploying with key ${{ secrets.DEPLOY_KEY }}"
+      - name: Deploy
+        run: ./deploy.sh

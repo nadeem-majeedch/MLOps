@@ -1,0 +1,10 @@
+# Runtime dependencies for the ETA service. mlflow is intentionally absent:
+# the container loads a baked artifact from disk. Add mlflow==2.17.2 if the
+# image must resolve a registry alias at start-up.
+fastapi==0.115.6
+uvicorn==0.32.1
+pydantic==2.14.1
+pandas==2.2.3
+scikit-learn==1.5.2
+numpy==2.5.4
+joblib==1.4.2

@@ -1,0 +1,22 @@
+# Fill this in from `python scan.py` plus your own reading of app/.
+#
+# One entry per distinct problem, not per matching line. Two log lines with the
+# same cause are one finding.
+#
+# severity: high | medium | low
+#   high    exploitable now, or personal data already exposed
+#   medium  would become exploitable with one more mistake, or hides a control
+#   low     hygiene; fix in the next change, not tonight
+#
+# mitigation must say what changes, who can do it, and how you would verify it.
+# "Use secrets" is not a mitigation.
+
+findings:
+  - id: F1
+    issue: TODO
+    file: TODO
+    severity: TODO
+    impact: TODO
+    mitigation: TODO
+
+model_card: docs/model-card.md

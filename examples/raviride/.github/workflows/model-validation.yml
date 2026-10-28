@@ -1,0 +1,49 @@
+name: model-validation
+
+on:
+  pull_request:
+    paths:
+      - "params.yaml"
+      - "src/raviride_eta/**"
+      - "data/raw/**"
+      - "requirements-serve.txt"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install -r requirements-serve.txt
+      - name: Validate the raw batch
+        run: python -m raviride_eta.data data/raw/trips.csv
+        env:
+          PYTHONPATH: src
+      - name: Reproduce the pipeline
+        run: |
+          python -m raviride_eta.prepare
+          python -m raviride_eta.featurise
+          python -m raviride_eta.train
+          python -m raviride_eta.evaluate
+        env:
+          PYTHONPATH: src
+      - name: Regression gate
+        run: python scripts/check_metrics.py --baseline baseline.json --current metrics.json --tolerance 0.05
+      - name: Upload metrics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: metrics
+          path: |
+            metrics.json
+            models/run_meta.json
+          retention-days: 14

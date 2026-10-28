@@ -1,0 +1,18 @@
+# One service, one port, one environment variable. Nothing here needs a
+# registry account.
+#
+#    docker compose up --build
+#    docker compose down
+#
+# Change MODEL_PATH to a bad path and restart: /health must still answer and
+# /ready must refuse. That experiment needs no rebuild, which is the point of
+# putting environment-dependent behaviour in the environment.
+
+services:
+  api:
+    build: .
+    image: session-score:local
+    ports:
+      - "8000:8000"
+    environment:
+      MODEL_PATH: /app/models/model.joblib

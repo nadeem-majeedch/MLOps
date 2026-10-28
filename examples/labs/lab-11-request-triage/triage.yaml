@@ -1,0 +1,53 @@
+# Fill this in after running `python probes.py`.
+#
+# class is one of:
+#   ok        -- correct behaviour for that request
+#   client    -- the caller sent something the service should reject (4xx)
+#   service   -- the service failed while handling a well-formed request (5xx)
+#   contract  -- the service answered 200 but did not do what the caller thinks
+#
+# cause is free text. Say what happened, not where the code is.
+
+tickets:
+  - id: p01
+    class: TODO
+    cause: TODO
+
+  - id: p02
+    class: TODO
+    cause: TODO
+
+  - id: p03
+    class: TODO
+    cause: TODO
+
+  - id: p04
+    class: TODO
+    cause: TODO
+
+  - id: p05
+    class: TODO
+    cause: TODO
+
+  - id: p06
+    class: TODO
+    cause: TODO
+
+  - id: p07
+    class: TODO
+    cause: TODO
+
+  - id: p08
+    class: TODO
+    cause: TODO
+
+  - id: p09
+    class: TODO
+    cause: TODO
+
+  - id: p10
+    class: TODO
+    cause: TODO
+
+# The single change that would have prevented the 500 on ticket 4412.
+first_fix: TODO

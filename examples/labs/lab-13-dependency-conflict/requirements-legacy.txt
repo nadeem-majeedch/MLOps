@@ -1,0 +1,5 @@
+# Copied from the reporting service that was merged into this repository.
+# It was written when pandas 1.5 was current.
+pandas==1.5.3
+numpy==1.26.4
+scikit-learn==1.2.2

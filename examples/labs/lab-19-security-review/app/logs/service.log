@@ -1,0 +1,5 @@
+2026-10-12T09:14:02Z INFO predict request={'hours': 4.5, 'prior_score': 62, 'student_email': 'student01@example.edu', 'dob': '2004-03-11'}
+2026-10-12T09:14:02Z INFO auth key=sk_test_FAKE_do_not_use_1234567890
+2026-10-12T09:15:41Z INFO registered Test Student 01 student01@example.edu 2004-03-11
+2026-10-12T10:02:13Z ERROR upstream timeout after 30s, retrying
+2026-10-12T10:02:19Z INFO predict request={'hours': 7.0, 'prior_score': 71, 'student_email': 'student02@example.edu', 'dob': '2003-08-02'}

@@ -1,0 +1,73 @@
+# A working shape to copy into your own repository.
+# It installs pinned dependencies, generates data, runs the tests, and then runs
+# the pipeline gate. The gate step is the one that would have blocked a bad model;
+# it is a separate step so a red run names the stage that failed.
+#
+# This workflow was NOT executed on a hosted runner (none was available where the
+# template was written). Its commands were run locally, in the same order, before
+# being written here. Verify it on your own repository before trusting it.
+name: quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Unit and data tests
+        run: python -m pytest
+
+      - name: Generate data
+        run: python make_data.py
+
+      - name: Validate
+        run: python cli.py validate
+
+      - name: Train and apply the promotion policy
+        run: |
+          python cli.py train
+          python cli.py promote --note "ci-${{ github.sha }}"
+
+      - name: Drift report (informational)
+        # `monitor` exits 2 on drift. Drift is an input-distribution finding, not
+        # automatically a failed build, so the step records it and continues.
+        # The uploaded report is the evidence; a human decides about retraining.
+        run: |
+          set +e
+          python cli.py monitor | tee drift-report.txt
+          code=${PIPESTATUS[0]}
+          echo "monitor_exit=$code" >> "$GITHUB_STEP_SUMMARY"
+          exit 0
+
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: run-evidence
+          path: |
+            artifacts/metrics.json
+            artifacts/run_meta.json
+            drift-report.txt
+          retention-days: 14
+          if-no-files-found: warn

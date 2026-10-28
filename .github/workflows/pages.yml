@@ -1,0 +1,99 @@
+# Publish the static course website to GitHub Pages.
+#
+# Before this workflow can deploy, the repository owner must set
+# Settings > Pages > Build and deployment > Source to "GitHub Actions".
+# This file cannot and does not change that setting. See
+# docs/reference-guides/github-pages-deployment.md.
+#
+# Security shape:
+#   * No pull_request trigger, so fork code is never deployed.
+#   * The deploy job runs only in the canonical repository and only from main.
+#   * The build job has contents: read; the deploy job adds pages: write and
+#     id-token: write, which are the two permissions the Pages action requires.
+#   * No personal token or repository secret is used; GITHUB_TOKEN is issued per
+#     run and the OIDC token identifies the workflow.
+#
+# Action versions are current majors as of October 2026. Review them with
+# docs/reference-guides/maintenance.md.
+name: Deploy course site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - "mkdocs.yml"
+      - "requirements-docs.txt"
+      - "scripts/validate_course.py"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v7.1.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-docs.txt
+
+      - name: Install documentation dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-docs.txt
+
+      - name: Validate the repository
+        run: python scripts/validate_course.py
+
+      - name: Build with warnings treated as errors
+        run: python -m mkdocs build --strict
+
+      - name: Upload the Pages artifact
+        uses: actions/upload-pages-artifact@v5.0.0
+        with:
+          path: site/
+
+  deploy:
+    name: Deploy
+    needs: build
+    # A pull request never reaches this job (there is no pull_request trigger),
+    # and a fork's push must not publish to this site. `workflow_dispatch` is
+    # allowed only on main.
+    if: >-
+      github.repository == 'nadeem-majeedch/MLOps' &&
+      github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5.0.1
+
+      # This does not change settings; it turns a common failure into an
+      # actionable message. The owner still has to enable Pages.
+      - name: Explain a Pages configuration failure
+        if: failure()
+        run: |
+          echo "::error title=Pages deployment failed::If the log mentions a missing Pages site, permissions, or an environment rule, open Settings > Pages and set Source to 'GitHub Actions', then check Settings > Environments > github-pages. See docs/reference-guides/github-pages-deployment.md."

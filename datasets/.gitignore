@@ -1,0 +1,4 @@
+# Generated data is build output: regenerate with `python datasets/generate.py`.
+generated/
+generated-*/
+__pycache__/

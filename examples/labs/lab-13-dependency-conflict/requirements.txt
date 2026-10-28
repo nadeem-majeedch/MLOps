@@ -1,0 +1,10 @@
+# The pipeline and service as they are installed today.
+pandas==2.2.3
+numpy==2.5.4
+scikit-learn==1.5.2
+fastapi==0.115.6
+uvicorn==0.32.1
+pydantic==2.14.1
+joblib==1.4.2
+httpx==0.28.1
+pytest==8.3.4

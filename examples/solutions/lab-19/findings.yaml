@@ -1,0 +1,46 @@
+# Reference review. Severity reflects impact now, not effort to fix.
+
+findings:
+  - id: F1
+    issue: Live-looking API key and a database password committed in source
+    file: app/config.py
+    severity: high
+    impact: Anyone with repository access, including forks and CI logs, has the credential. Rotation is required even after the file is cleaned, because the value is already in history.
+    mitigation: Revoke both credentials, load them from the platform secret store, add a pre-commit secret scanner, and rewrite history before the repository is made public. Verify by re-running the scanner on a fresh clone and confirming the value is absent from every commit.
+
+  - id: F2
+    issue: Email addresses and dates of birth written to application logs
+    file: app/logs/service.log
+    severity: high
+    impact: Personal data is duplicated into a lower-control system with longer retention, and the log line also contains the API key. The registrations export suggests the same data is stored unminimised.
+    mitigation: Remove the fields from the log statements, log a hashed request id instead, purge existing log files, and set a 30-day retention policy. Verify by replaying the service and asserting that no log line matches an email or date pattern.
+
+  - id: F3
+    issue: Workflow echoes a deployment secret into the job log
+    file: app/.github/workflows/deploy.yml
+    severity: high
+    impact: The secret is printed on every push; anyone who can read Actions logs can read it, and logs are copied to third-party UIs.
+    mitigation: Delete the echo step, rotate DEPLOY_KEY, and pass the secret to the deploy script through the environment. Verify by checking the next run's log for the masked string and by auditing for other uses of the secret context.
+
+  - id: F4
+    issue: Workflow grants write-all permissions
+    file: app/.github/workflows/deploy.yml
+    severity: medium
+    impact: Any compromised step or dependency can push to the repository, publish packages and modify releases. The deployment does not need repository writes.
+    mitigation: Set permissions to contents read at workflow level and grant the minimum per job. Verify by inspecting the workflow's token permissions in a dry run.
+
+  - id: F5
+    issue: Actions and Python dependencies are unpinned
+    file: app/requirements.txt
+    severity: medium
+    impact: A new release of any dependency or action can change behaviour without a code change, and the floating action tag is a supply-chain path.
+    mitigation: Pin actions to a commit SHA and dependencies to exact versions with a lock file; enable Dependabot for reviewable updates. Verify by rebuilding twice a week apart and comparing the resolved versions.
+
+  - id: F6
+    issue: Personal data stored unminimised in a repository CSV
+    file: app/data/registrations.csv
+    severity: medium
+    impact: Names, emails and dates of birth are in version control, where deletion is ineffective and access is broader than the database.
+    mitigation: Store only the identifiers needed for the model, keep the export in the access-controlled store, and document a retention period. Verify by scanning the repository for the patterns and by reviewing who has read access.
+
+model_card: docs/model-card.md

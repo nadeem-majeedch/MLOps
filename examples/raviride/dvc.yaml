@@ -1,0 +1,52 @@
+stages:
+  prepare:
+    cmd: python -m raviride_eta.prepare
+    deps:
+      - data/raw/trips.csv
+      - src/raviride_eta/prepare.py
+      - src/raviride_eta/data.py
+      - src/raviride_eta/config.py
+    params:
+      - data.test_days
+      - data.window_start
+      - data.window_end
+    outs:
+      - data/processed/train.csv
+      - data/processed/test.csv
+
+  featurise:
+    cmd: python -m raviride_eta.featurise
+    deps:
+      - data/processed/train.csv
+      - data/processed/test.csv
+      - src/raviride_eta/featurise.py
+      - src/raviride_eta/features.py
+    outs:
+      - data/features/train.csv
+      - data/features/test.csv
+
+  train:
+    cmd: python -m raviride_eta.train
+    deps:
+      - data/features/train.csv
+      - src/raviride_eta/train.py
+      - src/raviride_eta/features.py
+      - src/raviride_eta/config.py
+    params:
+      - features.set
+      - model
+    outs:
+      - models/model.joblib
+      - models/run_meta.json
+
+  evaluate:
+    cmd: python -m raviride_eta.evaluate
+    deps:
+      - models/model.joblib
+      - data/features/test.csv
+      - src/raviride_eta/evaluate.py
+    params:
+      - features.set
+    metrics:
+      - metrics.json:
+          cache: false

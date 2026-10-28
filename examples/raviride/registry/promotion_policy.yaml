@@ -1,0 +1,9 @@
+# Gates a candidate must pass before the champion alias moves.
+overall_ceiling: 3.20        # absolute: worse than this is not shippable, whatever the champion is
+max_regression: 0.03         # relative: no more than 3% worse than the current champion
+zone_limits:                 # per-zone tolerance; sparse zones get more room
+  Z01: 0.05
+  Z05: 0.05
+  Z07: 0.05
+  Z08: 0.08
+forbid_dropped_zones: true    # added after the v5 incident: no production zone may be missing

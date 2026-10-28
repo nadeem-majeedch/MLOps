@@ -1,0 +1,24 @@
+# Paths are relative to the project directory.
+data: data/equipment.csv
+batch: data/current_batch.csv
+artifacts: artifacts
+registry: artifacts/registry
+
+seed: 42
+holdout_machines: 2
+
+# The operating threshold is *derived* on training data: the quantile that
+# reaches this recall. It is frozen before the test set is scored.
+target_recall: 0.80
+
+# Promotion policy. Values are set from a measured baseline, not aspiration:
+# the reference run reaches roc_auc 0.84, recall 0.88, precision 0.17 on the two
+# held-out machines. Precision is low by design -- missing a failure is worse
+# than an unnecessary inspection -- and the report must say so.
+policy:
+  min_roc_auc: 0.75
+  min_recall: 0.60
+  min_precision: 0.10
+
+drift:
+  psi_threshold: 0.20     # 0.10 watch, 0.20 act, on this data

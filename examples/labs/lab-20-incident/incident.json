@@ -1,0 +1,29 @@
+{
+  "incident_id": "INC-2026-10-18",
+  "severity": "TODO",
+  "detected_at": "TODO",
+  "mitigated_at": "TODO",
+  "mttr_minutes": 0,
+  "impact": {
+    "failed_requests": 0,
+    "window": "TODO",
+    "user_visible": "TODO"
+  },
+  "root_cause": "TODO",
+  "contributing_factors": [
+    "TODO"
+  ],
+  "detection": "TODO",
+  "immediate_action": {
+    "action": "TODO",
+    "target_version": "TODO",
+    "verified_by": "TODO"
+  },
+  "timeline": [
+    {"at": "TODO", "actor": "TODO", "event": "TODO"}
+  ],
+  "prevention": [
+    "TODO"
+  ],
+  "postmortem": "docs/postmortem.md"
+}

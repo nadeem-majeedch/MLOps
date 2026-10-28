@@ -1,0 +1,122 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python -m raviride_eta.prepare
+    deps:
+    - path: data/raw/trips.csv
+      hash: md5
+      md5: 136c1ba7e8e491687efbf48a9e0f51db
+      size: 82499
+    - path: src/raviride_eta/config.py
+      hash: md5
+      md5: 810df165e1e80a3debb1e442e760d661
+      size: 542
+    - path: src/raviride_eta/data.py
+      hash: md5
+      md5: 25a939625656607051dc45352fd85e72
+      size: 4737
+    - path: src/raviride_eta/prepare.py
+      hash: md5
+      md5: 41ea5c90a0f3773219a1dabac3479f43
+      size: 1392
+    params:
+      params.yaml:
+        data.test_days: 7
+        data.window_end: '2026-09-30'
+        data.window_start: '2026-09-01'
+    outs:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 4e0bb6fc6ebf9b5c93d0f0634c1a0502
+      size: 21010
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 35ecfd2f2dc4fa1d2095db5bf5ac7ee2
+      size: 61620
+  featurise:
+    cmd: python -m raviride_eta.featurise
+    deps:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 4e0bb6fc6ebf9b5c93d0f0634c1a0502
+      size: 21010
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 35ecfd2f2dc4fa1d2095db5bf5ac7ee2
+      size: 61620
+    - path: src/raviride_eta/features.py
+      hash: md5
+      md5: 4c7c6cfb857a750672b122e07708e0b5
+      size: 2022
+    - path: src/raviride_eta/featurise.py
+      hash: md5
+      md5: 4df2414f54c6aae0290ad89d89cb958e
+      size: 849
+    outs:
+    - path: data/features/test.csv
+      hash: md5
+      md5: 629d5f5f42498ee198074e9d292243ba
+      size: 29375
+    - path: data/features/train.csv
+      hash: md5
+      md5: 5425b584e41427034467f06f72739325
+      size: 86149
+  train:
+    cmd: python -m raviride_eta.train
+    deps:
+    - path: data/features/train.csv
+      hash: md5
+      md5: 5425b584e41427034467f06f72739325
+      size: 86149
+    - path: src/raviride_eta/config.py
+      hash: md5
+      md5: 810df165e1e80a3debb1e442e760d661
+      size: 542
+    - path: src/raviride_eta/features.py
+      hash: md5
+      md5: 4c7c6cfb857a750672b122e07708e0b5
+      size: 2022
+    - path: src/raviride_eta/train.py
+      hash: md5
+      md5: 56d23d594106774cad672b5249ff63b0
+      size: 2445
+    params:
+      params.yaml:
+        features.set: full
+        model:
+          n_estimators: 200
+          max_depth: 12
+          min_samples_leaf: 3
+          random_state: 42
+    outs:
+    - path: models/model.joblib
+      hash: md5
+      md5: 18228a5a4b3cbe8fb2ff6132df10e7c4
+      size: 4476423
+    - path: models/run_meta.json
+      hash: md5
+      md5: 3c51b004716f40ba56009f347d400810
+      size: 623
+  evaluate:
+    cmd: python -m raviride_eta.evaluate
+    deps:
+    - path: data/features/test.csv
+      hash: md5
+      md5: 629d5f5f42498ee198074e9d292243ba
+      size: 29375
+    - path: models/model.joblib
+      hash: md5
+      md5: 18228a5a4b3cbe8fb2ff6132df10e7c4
+      size: 4476423
+    - path: src/raviride_eta/evaluate.py
+      hash: md5
+      md5: ebf3414627cf592ba2913ff6f0e75a4a
+      size: 2140
+    params:
+      params.yaml:
+        features.set: full
+    outs:
+    - path: metrics.json
+      hash: md5
+      md5: 478ee884800031b0007106e3d745e0fd
+      size: 873

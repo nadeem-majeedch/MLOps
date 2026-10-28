@@ -1,0 +1,42 @@
+tickets:
+  - id: p01
+    class: ok
+    cause: "Valid request: 200 with a prediction and the loaded model version."
+
+  - id: p02
+    class: client
+    cause: "Negative hours fail the field range (ge 0.25) and return 422 before the handler runs."
+
+  - id: p03
+    class: client
+    cause: "prior_score 150 is above the maximum of 100, so 422 names prior_score."
+
+  - id: p04
+    class: client
+    cause: "sleep_hours is required and absent from the body, so 422 says so."
+
+  - id: p05
+    class: contract
+    cause: "Unknown fields are allowed and ignored, so the extra score is dropped and the answer does not change. The caller cannot tell."
+
+  - id: p06
+    class: service
+    cause: "prior_score 0 passes validation, then hours divided by prior_score raises ZeroDivisionError and the client sees an empty 500."
+
+  - id: p07
+    class: client
+    cause: "GET is not implemented for this route, so 405 method not allowed."
+
+  - id: p08
+    class: client
+    cause: "No such route, so 404. The path differs from the documented /predict."
+
+  - id: p09
+    class: client
+    cause: "Empty body, so all three fields are missing and the 422 lists them."
+
+  - id: p10
+    class: client
+    cause: "null is not a number, so validation rejects it with 422 before any arithmetic."
+
+first_fix: "Guard the division that computes pace, or remove it from the prediction path. The 500 is a well-formed request reaching an unguarded arithmetic operation, not a validation gap."

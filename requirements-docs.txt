@@ -1,0 +1,8 @@
+# Dependencies for building and previewing the course website.
+# Setup and commands: docs/reference-guides/local-preview.md
+#
+# MkDocs Material brings MkDocs and the Markdown extensions used by the site.
+# Upper bounds prevent a surprise major release from changing rendering.
+
+mkdocs>=1.6,<2.0
+mkdocs-material>=9.7,<10.0

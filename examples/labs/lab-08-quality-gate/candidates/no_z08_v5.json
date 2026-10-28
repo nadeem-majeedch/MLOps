@@ -1,0 +1,23 @@
+{
+  "candidate": "no_z08_v5",
+  "model": "raviride-eta",
+  "trained_at": "2026-09-27T08:11:00Z",
+  "data_hash": "a91c0d7e4b2f8861",
+  "dropped_zones": ["Z08"],
+  "metrics": {
+    "mae": 2.7574,
+    "rmse": 4.4712,
+    "r2": 0.7341,
+    "p95_abs_error": 8.0446,
+    "zones": {
+      "Z01": {"mae": 1.9772, "rows": 68},
+      "Z02": {"mae": 1.839, "rows": 54},
+      "Z03": {"mae": 2.588, "rows": 52},
+      "Z04": {"mae": 2.5524, "rows": 34},
+      "Z05": {"mae": 2.9281, "rows": 30},
+      "Z06": {"mae": 2.8802, "rows": 28},
+      "Z07": {"mae": 5.2205, "rows": 16},
+      "Z08": {"mae": 5.96, "rows": 22}
+    }
+  }
+}
